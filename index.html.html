@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simran's Joke Game</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(135deg, #1e1e1e, #4b4b4b);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .container {
+      text-align: center;
+      background-color: rgba(0,0,0,0.6);
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 80%;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    #jokeSetup {
+      font-size: 1.4em;
+      margin-bottom: 20px;
+    }
+    #jokePunchline {
+      font-size: 1.3em;
+      color: #ff4081;
+      margin-top: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background-color: #ff4081;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #e91e63;
+    }
+    #endMessage {
+      display: none;
+      font-size: 1.4em;
+      margin-top: 20px;
+      color: #00e676;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>💀 Simran's Dark Joke Game 💀</h1>
+    <div id="counterText">Joke 1 of 15</div>
+    <div id="jokeSetup">Click "Next" to begin!</div>
+    <div id="jokePunchline"></div>
+    <button onclick="revealAnswer()">Tell Me</button>
+    <button onclick="nextJoke()">Next</button>
+    <div id="endMessage">🎉 Simran, you survived all 15 jokes! Certified Dark Joke Master! 💀✨</div>
+    <div id="reaction" style="font-size: 2em; margin-top: 15px;"></div>
+  </div>
+
+  <audio id="clickSound" src="click.wav"></audio>
+  <audio id="punchlineSound" src="funny.wav"></audio>
+
+  <script>
+    const jokes = [{setup: "Why don’t orphans play baseball?", punchline: "Because they don’t know where home is."},
+      {setup: "Why don’t skeletons ever go to parties?", punchline: "Because they have no body to go with."},
+      {setup: "Why was the cemetery so popular?", punchline: "Because people were dying to get in."},
+      {setup: "Why did Grandpa put wheels on his rocking chair?", punchline: "Because he wanted to rock and roll... straight into traffic."},
+      {setup: "Why did the ghost get fired?", punchline: "He just went through the motions."},
+      {setup: "Why don’t graveyards ever get overcrowded?", punchline: "Because people are dying to get in."},
+      {setup: "What’s a vampire’s favorite ship?", punchline: "A blood vessel."},
+      {setup: "Why did the skeleton go to therapy?", punchline: "He had a bone to pick with his past."},
+      {setup: "Why don’t mummies take vacations?", punchline: "They’re afraid to unwind."},
+      {setup: "Why don’t zombies eat clowns?", punchline: "Because they taste funny."},
+      {setup: "Why did the kid bring a ladder to school?", punchline: "Because he was going to high school."},
+      {setup: "Why did Dracula become a vegetarian?", punchline: "Because biting people gave him bad breath."},
+      {setup: "Why did the ghost go to school?", punchline: "To learn how to be transparent."},
+      {setup: "Why don't coffins have wheels?", punchline: "Because people are dying to stay."},
+      {setup: "Why did the skeleton break up with his girlfriend?", punchline: "She didn't find him humerus."}];
+    let index = 0;
+    let currentJoke = null;
+
+    function nextJoke() {
+      if (index >= jokes.length) {
+        document.getElementById('jokeSetup').style.display = 'none';
+        document.getElementById('jokePunchline').style.display = 'none';
+        document.getElementById('counterText').style.display = 'none';
+        document.getElementById('endMessage').style.display = 'block';
+        document.getElementById('reaction').textContent = "😎";
+        return;
+      }
+      currentJoke = jokes[index];
+      document.getElementById('jokeSetup').textContent = currentJoke.setup;
+      document.getElementById('jokePunchline').textContent = "";
+      document.getElementById('reaction').textContent = "";
+      document.getElementById('counterText').textContent = `Joke ${index + 1} of 15`;
+      index++;
+      document.getElementById('clickSound').play();
+    }
+
+    function revealAnswer() {
+      if (currentJoke) {
+        document.getElementById('jokePunchline').textContent = currentJoke.punchline;
+        document.getElementById('punchlineSound').play();
+        document.getElementById('reaction').textContent = getEmoji();
+      }
+    }
+
+    function getEmoji() {
+      const emojis = ["😂", "💀", "🤣", "🤯", "😬", "😆"];
+      return emojis[Math.floor(Math.random() * emojis.length)];
+    }
+  </script>
+</body>
+</html>
